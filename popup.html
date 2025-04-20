@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Save Link</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <input type="text" id="linkInput" placeholder="Enter link to save">
+  <button id="saveButton">Save Link</button>
+  <div id="message"></div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const saveButton = document.getElementById('saveButton');
+      const linkInput = document.getElementById('linkInput');
+      const messageDiv = document.getElementById('message');
+
+      saveButton.addEventListener('click', function() {
+        const link = linkInput.value.trim();
+        if (link) {
+          chrome.storage.local.get({ 'savedLinks': [] }, function(data) {
+            const savedLinks = data.savedLinks;
+            savedLinks.push(link);
+            chrome.storage.local.set({ 'savedLinks': savedLinks }, function() {
+              messageDiv.textContent = 'Link saved!';
+              linkInput.value = ''; // Clear the input field
+            });
+          });
+        } else {
+          messageDiv.textContent = 'Please enter a link.';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
