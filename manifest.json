@@ -1,6 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "Simple Link Saver",
+    "name": "Litview",
     "version": "0.1",
     "description": "A simple extension to save links.",
     "permissions": ["storage"],
