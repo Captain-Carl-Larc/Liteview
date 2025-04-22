@@ -21,3 +21,32 @@ button {
   background-color: red;
   margin: 5px 0px;
 }
+
+.delete-icon-container {
+  margin-left: 5px;
+  display: inline-flex; /* To help with alignment */
+  align-items: center; /* Vertically align the icon */
+}
+
+.delete-icon {
+  width: 1.5em; /* Adjust size as needed */
+  height: 1.5em;
+  color: black /* Set the color */;
+  font-weight: bolder;
+}
+
+.delete-icon-container:hover {
+  opacity: 0.7;
+}
+
+ol{
+  padding-left: 0px;
+}
+
+li{
+  margin: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0px ;
+}
