@@ -8,9 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const savedLinksUl = document.getElementById('saved-links-ul');
 
   //function when save clicked
-  function saveLink(link) {
+  function saveLink() {
     //1. Take the link from input field
     const link = linkInput.value.trim();
+    console.log(link);
+    
     //2. do smth
     if (link) {
       messageDiv.textContent = `${link} saved!`;
