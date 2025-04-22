@@ -1,45 +1,61 @@
-
 document.addEventListener('DOMContentLoaded', function() {
-  //getting necessary DOM elements and storing in variables
+  // Getting necessary DOM elements and storing in variables
   const saveButton = document.getElementById('saveButton');
   const linkInput = document.getElementById('linkInput');
   const messageDiv = document.getElementById('message');
-  const savedLinksContainer = document.getElementById('saved-links-container');
   const savedLinksUl = document.getElementById('saved-links-ul');
 
+  // Array to store saved links
+  let savedLinks = [];
 
-    // Array to store saved links (for now, will reset when popup closes)
-    let savedLinks = [];
-
-
-  //function when save clicked
-  function saveLink() {
-    //1. Take the link from input field
-    const link = linkInput.value.trim();
-    console.log(link);
-    
-    //2. do smth
-    if (link) {
-      messageDiv.textContent = `${link} saved!`;
-      savedLinks.push(link);
-      linkInput.value = ''; 
-    } else {      
-      messageDiv.textContent = 'Please enter a link.';
-    }
-
-    renderLinks();
+  // Function to save links to Chrome Storage
+  function saveLinksToStorage() {
+    chrome.storage.sync.set({ 'savedLinks': savedLinks }, function() {
+      console.log('Links saved to Chrome Storage:', savedLinks);
+      messageDiv.textContent = 'Links saved!'; // Update message to reflect storage
+    });
   }
 
-    // Function to render the saved links in the ul
-    function renderLinks() {
-      savedLinksUl.innerHTML = ''; // Clear the existing list
-      savedLinks.forEach(link => {
-        const listItem = document.createElement('li');
-        listItem.textContent = link;
-        savedLinksUl.appendChild(listItem);
-      });
+  // Function to load links from Chrome Storage
+  function loadLinksFromStorage() {
+    chrome.storage.sync.get('savedLinks', function(data) {
+      if (data.savedLinks) {
+        savedLinks = data.savedLinks;
+        renderLinks();
+        console.log('Links loaded from Chrome Storage:', savedLinks);
+      }
+    });
+  }
+
+  // Function to render the saved links in the ul
+  function renderLinks() {
+    savedLinksUl.innerHTML = ''; // Clear the existing list
+    savedLinks.forEach(link => {
+      const listItem = document.createElement('li');
+      listItem.textContent = link;
+      savedLinksUl.appendChild(listItem);
+    });
+  }
+
+  // Function when save clicked
+  function saveLink() {
+    // 1. Take the link from the input field
+    const newLink = linkInput.value.trim();
+
+    // 2. Do something if the link is not empty
+    if (newLink) {
+      savedLinks.push(newLink);     // Add the new link to the array
+      saveLinksToStorage();         // Save the updated array to Chrome Storage
+      linkInput.value = '';         // Clear the input field
+      renderLinks();               // Update the displayed list
+    } else {
+      messageDiv.textContent = 'Please enter a link.';
     }
-    
-  //adding event listener to the save button
-  saveButton.addEventListener('click', saveLink );
+  }
+
+  // Adding event listener to the save button
+  saveButton.addEventListener('click', saveLink);
+
+  // Load links from storage when the popup is loaded
+  loadLinksFromStorage();
 });
