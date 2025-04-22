@@ -9,3 +9,10 @@ Made the mandatory files and unpacked to ``brave://extensions/``
 ## version 0.1.1
 ### main changes
 1. Able to save links render links
+
+
+## Version 1.0.0
+First major release with following functionalities:
+1. Save link
+2. Delete link
+3. Delete all links
