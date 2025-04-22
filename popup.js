@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const linkInput = document.getElementById('linkInput');
   const messageDiv = document.getElementById('message');
   const savedLinksUl = document.getElementById('saved-links-ul');
+  const deleteAllButton = document.getElementById('deleteAllButton');
 
   // Array to store saved links
   let savedLinks = [];
@@ -53,9 +54,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+    // Function to delete all saved links
+    function deleteAllLinks() {
+      savedLinks = []; // Clear the local array
+      chrome.storage.sync.remove('savedLinks', function() { // Clear from Chrome Storage
+        console.log('All links deleted from Chrome Storage.');
+        renderLinks(); // Update the displayed list (which will now be empty)
+        messageDiv.textContent = 'All links deleted!';
+      });
+    }
+
   // Adding event listener to the save button
   saveButton.addEventListener('click', saveLink);
 
+    // Adding event listener to the delete all button
+  deleteAllButton.addEventListener('click', deleteAllLinks);
   // Load links from storage when the popup is loaded
   loadLinksFromStorage();
 });
