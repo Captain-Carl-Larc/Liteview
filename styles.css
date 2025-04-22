@@ -17,3 +17,7 @@ button {
   cursor: pointer;
   width: 100%;
 }
+#deleteAllButton{
+  background-color: red;
+  margin: 5px 0px;
+}
