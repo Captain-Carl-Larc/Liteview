@@ -37,9 +37,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // Create List, Link and Delete Icon
       const listItem = document.createElement('li');
       const linktagContainer = document.createElement('a');
-      const deleteIconContainer = document.createElement('span');
-      
-      //set link tag
+      const deleteIconContainer = document.createElement('span');      
+    //set link tag
       linktagContainer.href = link;
       linktagContainer.textContent = `${index+1+'.'} ${link}`;
       //set delete icon
