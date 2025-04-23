@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
   function saveLinksToStorage() {
     chrome.storage.sync.set({ 'savedLinks': savedLinks }, function() {
       console.log('Links saved to Chrome Storage:', savedLinks);
-      messageDiv.textContent = 'Links saved!'; // Update message to reflect storage
+      const savedLinksMsg = 'Changes saved!'; // Update message to reflect storage
+      showMessage(savedLinksMsg);
     });
   }
 
@@ -37,7 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // Create List, Link and Delete Icon
       const listItem = document.createElement('li');
       const linktagContainer = document.createElement('a');
-      const deleteIconContainer = document.createElement('span');      
+      const deleteIconContainer = document.createElement('span');  
+
     //set link tag
       linktagContainer.href = link;
       linktagContainer.textContent = `${index+1+'.'} ${link}`;
@@ -67,17 +69,27 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log(`Deleted link: ${deletedLink} at index ${indexToDelete}`);
       saveLinksToStorage(); // Save the updated array to Chrome Storage
       renderLinks(); // Re-render the list
-      messageDiv.textContent = 'Link deleted!';
+      //messageDiv.textContent = 'Link deleted!';
+      const deleteLinkMsg = 'Link deleted!'
+      showMessage(deleteLinkMsg)
+      
     }
   }
-
+  function showMessage (msg){
+    messageDiv.style.display = 'block';
+    messageDiv.textContent = msg;
+    setTimeout(() => {
+      messageDiv.style.display = 'none';
+    }, 2000);  
+  }
   // Function to delete all saved links
   function deleteAllLinks() {
     savedLinks = []; // Clear the local array
     chrome.storage.sync.remove('savedLinks', function() { // Clear from Chrome Storage
       console.log('All links deleted from Chrome Storage.');
       renderLinks(); // Update the displayed list (which will now be empty)
-      messageDiv.textContent = 'All links deleted!';
+      const deleteAllLinksMsg = 'All links deleted!';
+      showMessage(deleteAllLinksMsg);
     });
   }
 
@@ -93,7 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
       linkInput.value = '';         // Clear the input field
       renderLinks();               // Update the displayed list
     } else {
-      messageDiv.textContent = 'Please enter a link.';
+      const nullLinkMsg = 'Please enter a link.';
+      showMessage(nullLinkMsg);
     }
   }
 
